@@ -1,0 +1,51 @@
+https://wiki.esoui.com/Events
+https://wiki.esoui.com/Constant_Values#TRADING_HOUSE_RESULT_CANT_POST_FROM_THAT_BAG
+
+-- SLASH_COMMANDS["/sp"] = AutoBuy.BuyProfitablePurchases
+-- EVENT_TRADING_HOUSE_CONFIRM_ITEM_PURCHASE 
+-- AutoBuy.savedVariables = ZO_SavedVars:NewAccountWide("AutoBuySavedVariables", 1, nil, {})
+-- profitablePurchases = SortTableProfitDesc(profitablePurchases)
+-- table.insert(potentialPurchases, {name = "Iridiumüberzug", maxSellingPrice = 6500, minProfit = DEFAULT_MIN_PROFIT})
+-- table.insert(potentialPurchases, {name = "Platinstaub", maxSellingPrice = 105, minProfit = DEFAULT_MIN_PROFIT})
+-- table.insert(potentialPurchases, {name = "Rohe Ahnenseide", maxSellingPrice = 70, minProfit = DEFAULT_MIN_PROFIT})
+-- table.insert(potentialPurchases, {name = "Rubedohautfetzen", maxSellingPrice = 60, minProfit = DEFAULT_MIN_PROFIT})
+
+--[[
+	AutomatedMarketplace = {}
+	AutomatedMarketplace.AddOnName = "AutomatedMarketplace"
+	
+	function AutomatedMarketplace.OnTradingHouseClosed()
+		d("Closed") 
+	end
+	
+	function AutomatedMarketplace.OnTradingHouseConfirmItemPurchase()
+		d("ConfirmItemPurchase")
+	end
+
+function AutomatedMarketplace.OnTradingHouseOpen()
+    d("Open")
+    UpdateDB()
+end
+
+function AutomatedMarketplace.OnTradingHouseResponseReceived()
+    d("ResponseReceived")
+end
+
+function AutomatedMarketplace.Init()
+	EVENT_MANAGER:RegisterForEvent(AutomatedMarketplace.AddOnName, EVENT_OPEN_TRADING_HOUSE, AutomatedMarketplace.OnTradingHouseOpen)
+    EVENT_MANAGER:RegisterForEvent(AutomatedMarketplace.AddOnName, EVENT_CLOSE_TRADING_HOUSE, AutomatedMarketplace.OnTradingHouseClosed)
+	EVENT_MANAGER:RegisterForEvent(AutomatedMarketplace.AddOnName, EVENT_TRADING_HOUSE_RESPONSE_RECEIVED, AutomatedMarketplace.OnTradingHouseResponseReceived)
+	EVENT_MANAGER:RegisterForEvent(AutomatedMarketplace.AddOnName, EVENT_TRADING_HOUSE_CONFIRM_ITEM_PURCHASE, AutomatedMarketplace.OnTradingHouseConfirmItemPurchase)
+end
+
+function AutomatedMarketplace.CloseTH()
+    SYSTEMS:GetObject("tradingHouse"):CloseTradingHouse()
+end
+
+
+-- SetPendingItemPurchase(1)
+-- ConfirmPendingItemPurchase()
+--  self.numItemsOnPage, self.page, self.hasMorePages = GetTradingHouseSearchResultsInfo()
+
+SLASH_COMMANDS["/tt"] = AutomatedMarketplace.tt
+]]

@@ -1,0 +1,12 @@
+## Title: AutoBuy
+## Author: GK
+## APIVersion: 100033
+## SavedVariables: AutoBuySavedVariables
+## DependsOn: LibTable
+
+AutoBuy.lua
+Database/Load.lua
+Database/Save.lua
+Settings/GetSalesList.lua
+Logic/SelectPurchases.lua
+Logic/ExecPurchases.lua

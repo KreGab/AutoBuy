@@ -2,6 +2,7 @@ AutoBuy = { }
 AutoBuy.AddOnName = "AutoBuy"
 local database = { }
 local databaseSchema = { }
+local activated = false
 
 function		AutoBuy.BuyProfitablePurchases()
 	local selectPurchases = AutoBuy.SelectPurchases
@@ -10,18 +11,6 @@ function		AutoBuy.BuyProfitablePurchases()
 
 	profitablePurchases = selectPurchases()
 	executePurchases(profitablePurchases)
-end
-
-function		AutoBuy.OnTradingHouseResponseReceived(responseType, result)
-	local buyProfitablePurchases = AutoBuy.BuyProfitablePurchases
-	local isPendingPurchaseConfirmed = false
-
-	if (result == EVENT_TRADING_HOUSE_CONFIRM_ITEM_PURCHASE ) then
-		isPendingPurchaseConfirmed = true
-	end
-
-	d(isPendingPurchaseConfirmed)
-	d("Finished")
 end
 
 function		AutoBuy.OnAddOnLoaded(event, addOnName)
@@ -41,13 +30,23 @@ function		AutoBuy.Init()
 end
 
 function		AutoBuy.OnSearchFinished(eventCode, responseType, result)
-	if (responseType == 14) then
+	if (responseType == 14 and activated) then
 		local buyProfitablePurchases = AutoBuy.BuyProfitablePurchases
 
 		buyProfitablePurchases()
+		SYSTEMS:GetObject("tradingHouse"):CloseTradingHouse()
 	end
-	SYSTEMS:GetObject("tradingHouse"):CloseTradingHouse()
 end
 
+function		AutoBuy.Deactivate()
+	activated = false
+end
+
+function		AutoBuy.Activate()
+	activated = true
+end
+
+SLASH_COMMANDS["/aba"] = AutoBuy.Activate
+SLASH_COMMANDS["/abd"] = AutoBuy.Deactivate
 EVENT_MANAGER:RegisterForEvent(AutoBuy.AddOnName, EVENT_ADD_ON_LOADED, AutoBuy.OnAddOnLoaded)
 EVENT_MANAGER:RegisterForEvent(AutoBuy.AddOnName, EVENT_TRADING_HOUSE_RESPONSE_RECEIVED, AutoBuy.OnSearchFinished)

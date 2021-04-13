@@ -7,9 +7,7 @@ local salesList = {
 	["Zirkonkörner"] =			{ListPricePerUnit = 3850,		MinProfitPercentage = DEFAULT_MIN_PROFIT},
 	["Dreughwachs"] =			{ListPricePerUnit = 14500,		MinProfitPercentage = DEFAULT_MIN_PROFIT},
 	["Schmiedelegierung"] =		{ListPricePerUnit = 7250,		MinProfitPercentage = DEFAULT_MIN_PROFIT},
-	["Harz"] = 					{ListPricePerUnit = 3000,		MinProfitPercentage = 7},
-	["Fett"] =					{ListPricePerUnit = 10,			MinProfitPercentage = DEFAULT_MIN_PROFIT},
-	["Tomate"] =				{ListPricePerUnit = 10,			MinProfitPercentage = DEFAULT_MIN_PROFIT}
+	["Harz"] = 					{ListPricePerUnit = 3000,		MinProfitPercentage = 7}
 }
 
 function		AutoBuy.GetSalesList()

@@ -13,13 +13,14 @@ function		AutoBuy.SelectPurchases()
 	while (currPosition <= numItemsOnPage) do
 		purchase = getPossiblePurchase(currPosition)
 		profit = calcTradeProfit(purchase)
-		if (profit.IsProfitable) then
-			purchase.AbsoluteProfitPerUnit = profit.Absoluter
+		if (profit.IsProfitable == true) then
+			purchase.AbsoluteProfitPerUnit = profit.Absolute
 			profitablePurchases[numProfitablePurchases] = purchase
 			numProfitablePurchases = numProfitablePurchases + 1
 		end
 		currPosition = currPosition + 1
 	end
+	d("Profitable Purchases")
 	return (profitablePurchases)
 end
 
@@ -32,9 +33,10 @@ function		CalcTradeProfit(purchase)
 	if (salesItem == nil) then
 		return (profit)
 	end
-	profit.Absoluter = (salesItem.ListPricePerUnit * 0.92) - purchase.PricePerUnit
+	profit.Absolute = (salesItem.ListPricePerUnit * 0.92) - purchase.PricePerUnit
 	profit.Percentage = (((salesItem.ListPricePerUnit * 0.92) / purchase.PricePerUnit) - 1) * 100
 	if (profit.Percentage >= salesItem.MinProfitPercentage) then
+		d(purchase.ItemName)
 		profit.IsProfitable = true
 	end
 	return (profit)
@@ -47,7 +49,7 @@ end
 function		GetPossiblePurchase(position)
 	local purchase = { }
 	local _, itemName, _, stackCount, _, timeRemaining, purchasePrice, currencyType, itemUniqueId, purchasePricePerUnit = GetTradingHouseSearchResultItemInfo(position)
-	
+
 	purchase.ItemName = ParseToReadableString(itemName)
 	purchase.StackCount = stackCount
 	purchase.TimeRemaining = timeRemaining

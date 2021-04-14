@@ -14,4 +14,4 @@ Database/Load.lua
 Database/Save.lua
 Settings/GetSalesList.lua
 Logic/SelectPurchases.lua
-Logic/ExecPurchases.lua
+Logic/ExecutePurchases.lua

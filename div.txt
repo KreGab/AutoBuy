@@ -49,3 +49,13 @@ end
 
 SLASH_COMMANDS["/tt"] = AutomatedMarketplace.tt
 ]]
+
+local function		AutoBuy.CloseTradingHouse()
+	SYSTEMS:GetObject("tradingHouse"):CloseTradingHouse()
+end
+
+function			RegisterCallbackCloseTradingHouse()
+	CALLBACK_MANAGER:RegisterCallback("AutoBuyCloseTradingHouse", OnCallbackCloseTradingHouse)
+end
+
+function close

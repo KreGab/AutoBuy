@@ -3,13 +3,16 @@ AutoBuy.AddOnName = "AutoBuy"
 local database = { }
 local databaseSchema = { }
 local activated = false
+local EVENT_LOADED_SEARCH_RESULTS = 14
 
 function		AutoBuy.BuyProfitablePurchases()
+	d("AutoBuy.BuyProfitablePurchases")
 	local selectPurchases = AutoBuy.SelectPurchases
-	local executePurchases = AutoBuy.ExecPurchases
-	local profitablePurchases = { }
+	executePurchases = AutoBuy.ExecutePurchases
+	profitablePurchases = { }
 
 	profitablePurchases = selectPurchases()
+	d("Before Execution. Number of profitablePurchases: " .. #profitablePurchases)
 	executePurchases(profitablePurchases)
 end
 
@@ -30,11 +33,13 @@ function		AutoBuy.Init()
 end
 
 function		AutoBuy.OnSearchFinished(eventCode, responseType, result)
-	if (responseType == 14 and activated) then
+	d("AutoBuy.OnSearchFinished")
+	if (responseType == EVENT_LOADED_SEARCH_RESULTS and activated) then
 		local buyProfitablePurchases = AutoBuy.BuyProfitablePurchases
+		local registerCallbackCloseTradingHouseAfterFinishedPurchases = AutoBuy.RegisterCallbackCloseTradingHouse
 
+		d("AutoBuy.OnSearchFinished: Right event")
 		buyProfitablePurchases()
-		SYSTEMS:GetObject("tradingHouse"):CloseTradingHouse()
 	end
 end
 
